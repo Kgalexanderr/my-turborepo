@@ -1,8 +1,10 @@
-/* Component-level styles for the UI package */
-@import "tailwindcss";
+/* Shared Tailwind and shadcn theme, compiled by each consuming app. */
 @import "@repo/tailwind-config";
 
 @import "tw-animate-css";
+/* Paths are relative to this file, including when imported by an app. */
+@source "./";
+
 @custom-variant dark (&:is(.dark *));
 
 :root {

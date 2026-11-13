@@ -8,7 +8,9 @@
     "./postcss": "./postcss.config.js"
   },
   "devDependencies": {
-    "postcss": "8.5.32",
+    "postcss": "8.5.32"
+  },
+  "dependencies": {
     "tailwindcss": "4.3.3"
   }
 }
