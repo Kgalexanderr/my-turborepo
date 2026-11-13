@@ -35,5 +35,12 @@ export const nextJsConfig = [
       ...pluginNext.configs["core-web-vitals"].rules,
     },
   },
-  pluginReactHooks.configs.flat.recommended,
+  {
+    plugins: {
+      "react-hooks": pluginReactHooks,
+    },
+    rules: {
+      ...pluginReactHooks.configs.recommended.rules,
+    },
+  },
 ];

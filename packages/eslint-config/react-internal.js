@@ -11,10 +11,17 @@ export const config = [
   {
     languageOptions: {
       globals: {
-        ...globals.serviceworker,
         ...globals.browser,
+        ...globals.serviceworker,
       },
     },
   },
-  pluginReactHooks.configs.flat.recommended,
+  {
+    plugins: {
+      "react-hooks": pluginReactHooks,
+    },
+    rules: {
+      ...pluginReactHooks.configs.recommended.rules,
+    },
+  },
 ];
