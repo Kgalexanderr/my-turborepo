@@ -1,5 +1,5 @@
 {
-  "name": "docs",
+  "name": "blank",
   "version": "1.0.0",
   "type": "module",
   "private": true,
@@ -13,7 +13,7 @@
   "dependencies": {
     "@repo/ui": "workspace:*",
     "geist": "1.8.2",
-    "next": "16.4.3",
+    "next": "16.4.6",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },
