@@ -1,5 +1,4 @@
-import "@repo/ui/styles.css";
-import './globals.css'
+import "./globals.css";
 
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
@@ -16,9 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={GeistSans.className}>
-        {children}
-      </body>
+      <body className={GeistSans.className}>{children}</body>
     </html>
   );
 }

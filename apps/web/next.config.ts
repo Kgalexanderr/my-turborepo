@@ -1,10 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  transpilePackages: ["@repo/ui"], // ensures UI package is compiled
+  transpilePackages: ["@repo/ui"],
 };
 
 export default nextConfig;

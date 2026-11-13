@@ -6,14 +6,12 @@
         "name": "next"
       }
     ],
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
 
-  "paths": {
-    "@/*": ["./src/*"],
-    "@repo/ui/*": ["../../packages/ui/src/*"]
-  },
-  
   "include": [
     "**/*.ts",
     "**/*.tsx",

@@ -1,2 +1,2 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+/* Each app and the UI stylesheet explicitly register their source directories. */
+@import "tailwindcss" source(none);

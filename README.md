@@ -1,60 +1,56 @@
-# Turborepo Tailwind CSS starter
+# ongrapes
 
-This Turborepo starter is maintained by the Turborepo core team.
-
-## Using this example
-
+Turborepo with two Next.js apps, Tailwind CSS v4, and a shared shadcn/ui package.
 Use Node.js 26.13.0 or newer and pnpm 12.16.1.
 
-Create a new repository with this example:
-
 ```sh
-npx create-turbo@latest -e with-tailwind
-```
-
-From the generated repository (or this example's directory), install dependencies and start both apps:
-
-```sh
-pnpm install
+pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open `docs` at [http://localhost:3000](http://localhost:3000) and `web` at [http://localhost:3001](http://localhost:3001).
+Open docs at http://localhost:3000 and web at http://localhost:3001.
+Run `pnpm build`, `pnpm lint`, and `pnpm check-types` from the repository root.
 
-Run `pnpm build`, `pnpm lint`, and `pnpm check-types` from the repository root to build, lint, and type-check all packages.
+## Shared UI and styles
 
-## What's inside?
+`@repo/ui` exports TypeScript components and CSS directly from `packages/ui/src`.
+Both Next.js apps transpile this package. There is no UI build or CSS watcher to
+start, and no `dist` directory to rebuild after editing a component.
 
-This Turborepo includes the following packages/apps:
+Each app imports only `./globals.css` in its root layout. That stylesheet imports
+`@repo/ui/styles.css` and registers its app directory using `@source "../"`.
+The shared stylesheet registers the UI source directory and defines the shadcn
+light/dark theme. `@repo/tailwind-config` supplies Tailwind and the shared PostCSS
+configuration. Each app compiles one stylesheet containing the utilities used by
+both the app and the UI package.
 
-### Apps and Packages
+Keep the global stylesheet import: Tailwind `className` utilities need generated
+CSS loaded into the page. React's `style={{ ... }}` prop is different and does not
+require Tailwind. Use complete literal class names so Tailwind can discover them.
 
-- `docs`: a [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `web`: another [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `ui`: a compiled React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `docs` applications
-- `@repo/tailwind-config`: shared Tailwind CSS theme and PostCSS configuration
-- `@repo/eslint-config`: `eslint` flat configurations (includes `@next/eslint-plugin-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+## Adding shadcn components
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+Run the CLI from the web app so its monorepo aliases route shared UI components
+to `packages/ui/src/components` and app-specific components to `apps/web/components`:
 
-### Building packages/ui
+```sh
+cd apps/web
+pnpm dlx shadcn@latest add button
+```
 
-The `ui` package compiles its components and type declarations with TypeScript and its styles with the Tailwind CSS CLI into `dist`. Both Next.js apps consume these built exports. Turborepo runs `build:components` and `build:styles` before building dependent apps, and builds the shared package before starting their development servers. The `ui` development tasks then watch for component and style changes.
+Import shared components through package exports:
 
-- Share one theme from `packages/tailwind-config/shared-styles.css` across apps and packages.
-- Keep component compilation independent of the consuming framework.
-- Avoid class-name collisions by using Tailwind CSS v4's `ui:` prefix via `@import "tailwindcss" prefix(ui);` in [packages/ui/src/styles.css](packages/ui/src/styles.css).
-- Maintain clear package export boundaries.
+```tsx
+import { Button } from "@repo/ui/components/button";
+```
 
-Another option is to consume `packages/ui` directly from source without building. Tailwind CSS v4 automatically detects class names in your source files, but it does not scan other packages in `node_modules`. If you use this option, update the package exports to point to source, configure Next.js to transpile `@repo/ui`, and add [`@source` directives](https://tailwindcss.com/docs/functions-and-directives#source-directive) to your apps' CSS entry points. Keep a prefixed CSS entry point for the `ui:` classes, or remove the prefixes when letting the apps generate those styles.
+Shared components use `cn` from `@repo/ui/lib/utils` to merge Tailwind class overrides.
+New shared hooks belong in `packages/ui/src/hooks` and are exported as
+`@repo/ui/hooks/*`. App-local imports use `@/*`, relative to `apps/web`.
 
-### Utilities
+## Checking style changes
 
-This Turborepo has some additional tools already set up for you:
-
-- [Tailwind CSS](https://tailwindcss.com/) for styles
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-# ongrapes
+With `pnpm dev` running, edit the shared Button and confirm web updates without a
+separate UI build. Hover Publish to check the pointer cursor. The page wrapper
+should remain centered with padding from its Tailwind utilities. Add utilities in
+either the app or shared UI source and confirm they appear after hot reload.
