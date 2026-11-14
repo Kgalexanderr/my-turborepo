@@ -6,16 +6,27 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "test": "turbo run test",
+    "test:watch": "turbo run test:watch",
+    "test:projects": "turbo run build --filter=@repo/vitest-config && vitest run",
+    "test:projects:watch": "turbo run build --filter=@repo/vitest-config && vitest --watch --reporter=default --coverage.enabled=false",
+    "report": "turbo run test && turbo run report",
+    "view-report": "turbo run test && turbo run view-report"
   },
   "devDependencies": {
     "pnpm": "12.16.1",
     "prettier": "3.9.10",
     "prettier-plugin-tailwindcss": "0.8.1",
-    "turbo": "^2.11.11"
+    "turbo": "^2.11.11",
+    "@repo/vitest-config": "workspace:*",
+    "@vitest/coverage-istanbul": "5.1.0",
+    "typescript": "7.0.2",
+    "vitest": "5.1.0"
   },
   "packageManager": "pnpm@12.16.1",
   "engines": {
     "node": ">=26.13.0"
-  }
+  },
+  "type": "module"
 }
