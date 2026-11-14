@@ -7,8 +7,9 @@
     "paths": {
       "@repo/ui/*": ["./src/*"]
     },
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "types": ["node", "react", "react-dom"]
   },
-  "include": ["src"],
+  "include": ["src", "vitest.config.ts", "vitest.d.ts"],
   "exclude": ["dist", "build", "node_modules"]
 }
