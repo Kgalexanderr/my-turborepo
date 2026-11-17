@@ -9,7 +9,7 @@ export default async function proxy(request: NextRequest) {
 
   if (!session.user) {
     return handleAuthkitProxy(request, headers, {
-      redirect: process.env.WORKOS_LOGIN_URL!,
+      redirect: process.env.NEXT_PUBLIC_WORKOS_LOGIN_URL!,
       redirectStatus: 307,
     });
   }
