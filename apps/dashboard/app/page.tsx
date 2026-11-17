@@ -3,6 +3,7 @@ import { withAuth } from "@workos-inc/authkit-nextjs";
 import { handleSignOutAction } from "./actions/signOut";
 import SignInButton from "@repo/ui/components/sign-in-button";
 import { createDbClient } from "@repo/db";
+import Link from 'next/link'
 
 // Server Component: fetch and display notess
 async function Notes({ accessToken }: { accessToken: string }) {
@@ -67,6 +68,7 @@ export default async function Page() {
 
   return (
     <>
+      <Link href={process.env.NEXT_PUBLIC_EDITOR_URL || ''}>Editor</Link>
       <div className="flex flex-col gap-12 justify-center items-center p-4">
         {userFields.length > 0 && (
           <div className="flex flex-col gap-4">
