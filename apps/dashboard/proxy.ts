@@ -1,7 +1,7 @@
 import { authkitProxy } from '@workos-inc/authkit-nextjs';
 
 export default authkitProxy({
-  redirectUri: process.env.NEXT_PUBLIC_WORKOS_REDIRECT_URI
+  redirectUri: process.env.NEXT_PUBLIC_WORKOS_CALLBACK_REDIRECT_URI
 });
 
 export const config = {
