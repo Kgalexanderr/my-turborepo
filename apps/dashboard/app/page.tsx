@@ -4,7 +4,7 @@ import { handleSignOutAction } from "./actions/signOut";
 import SignInButton from "@repo/ui/components/sign-in-button";
 import { createDbClient } from "@repo/db";
 
-// Server Component: fetch and display notes
+// Server Component: fetch and display notess
 async function Notes({ accessToken }: { accessToken: string }) {
   const supabase = createDbClient({
     url: process.env.NEXT_PUBLIC_SUPABASE_URL!,
