@@ -3,7 +3,6 @@ import { withAuth } from "@workos-inc/authkit-nextjs";
 import { handleSignOutAction } from "./actions/signOut";
 import SignInButton from "@repo/ui/components/sign-in-button";
 import Notes from "@repo/ui/components/notes";
-import Link from "next/link";
 
 export default async function Page() {
   const { user, role, permissions } = await withAuth({
@@ -15,22 +14,13 @@ export default async function Page() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl space-y-10 p-6">
+    <main className="p-12">
       <header className="flex items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <p className="text-sm text-gray-500">
             Welcome, {user.firstName || user.email}
           </p>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <Link
-            href={process.env.NEXT_PUBLIC_EDITOR_URL || "/"}
-          >
-            Editor
-          </Link>
-          <SignInButton signOutAction={handleSignOutAction} />
         </div>
       </header>
 
