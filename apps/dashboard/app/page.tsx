@@ -2,95 +2,50 @@
 import { withAuth } from "@workos-inc/authkit-nextjs";
 import { handleSignOutAction } from "./actions/signOut";
 import SignInButton from "@repo/ui/components/sign-in-button";
-import { createDbClient } from "@repo/db";
-import Link from 'next/link'
-
-// Server Component: fetch and display notess
-async function Notes({ accessToken }: { accessToken: string }) {
-  const supabase = createDbClient({
-    url: process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    publishableKey:
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-    accessToken,
-  });
-
-  const { data: notes, error } = await supabase
-    .from("demo_notes")
-    .select("id, content, created_at")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    return <p className="text-red-500">{error.message}</p>;
-  }
-
-  return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">Demo Notes</h1>
-
-      {notes.length === 0 ? (
-        <p>No notes found.</p>
-      ) : (
-        <div className="flex flex-col gap-3">
-          {notes.map((note) => (
-            <div key={note.id} className="rounded-lg border p-4">
-              <p>{note.content}</p>
-              <p className="mt-2 text-xs text-gray-500">
-                {new Date(note.created_at).toLocaleString()}
-              </p>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
+import Notes from "@repo/ui/components/notes";
+import Link from "next/link";
 
 export default async function Page() {
-  const {
-    user,
-    role,
-    permissions,
-    accessToken,
-  } = await withAuth({ ensureSignedIn: true });
+  const { user, role, permissions } = await withAuth({
+    ensureSignedIn: true,
+  });
 
-  if (!user || !accessToken) {
+  if (!user) {
     return <p>Not authenticated</p>;
   }
 
-  const userFields = [
-    ["First name", user.firstName],
-    ["Last name", user.lastName],
-    ["Email", user.email],
-    role ? ["Role", role] : [],
-    permissions ? ["Permissions", permissions] : [],
-    ["Id", user.id],
-  ].filter((arr) => arr.length > 0);
-
   return (
-    <>
-      <Link href={process.env.NEXT_PUBLIC_EDITOR_URL || ''}>Editor</Link>
-      <div className="flex flex-col gap-12 justify-center items-center p-4">
-        {userFields.length > 0 && (
-          <div className="flex flex-col gap-4">
-            {userFields.map(([label, value]) => (
-              <div key={String(label)}>
-                <label className="font-bold">{label}</label>
-                <p className="text-sm">
-                  {Array.isArray(value)
-                    ? value.join(", ")
-                    : value}
-                </p>
-              </div>
-            ))}
-          </div>
-        )}
+    <main className="mx-auto max-w-3xl space-y-10 p-6">
+      <header className="flex items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <p className="text-sm text-gray-500">
+            Welcome, {user.firstName || user.email}
+          </p>
+        </div>
 
-        <SignInButton signOutAction={handleSignOutAction} />
-      </div>
+        <div className="flex items-center gap-4">
+          <Link
+            href={process.env.NEXT_PUBLIC_EDITOR_URL || "/"}
+          >
+            Editor
+          </Link>
+          <SignInButton signOutAction={handleSignOutAction} />
+        </div>
+      </header>
 
-      <div className="p-4">
-        <Notes accessToken={accessToken} />
-      </div>
-    </>
+      <section className="space-y-2 rounded-lg border p-4">
+        <h2 className="font-semibold">User Information</h2>
+
+        <p className="text-sm">ID: {user.id}</p>
+        <p className="text-sm">Email: {user.email}</p>
+        <p className="text-sm">Role: {role ?? "None"}</p>
+        <p className="text-sm">
+          Permissions: {permissions?.join(", ") || "None"}
+        </p>
+      </section>
+
+      <Notes />
+    </main>
   );
 }
