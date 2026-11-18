@@ -4,13 +4,16 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./index.ts"
+    ".": "./src/index.ts",
+    "./server": "./src/server.ts"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^26.6.6"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.119.0"
+    "@supabase/supabase-js": "^2.119.0",
+    "@workos-inc/authkit-nextjs": "^4.6.3",
+    "server-only": "^0.0.1"
   }
 }

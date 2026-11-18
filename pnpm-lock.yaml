@@ -588,6 +588,12 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.119.0
         version: 2.119.0
+      '@workos-inc/authkit-nextjs':
+        specifier: ^4.6.3
+        version: 4.6.3(@workos-inc/node@12.3.0)(next@16.4.6(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)
+      server-only:
+        specifier: ^0.0.1
+        version: 0.0.1
     devDependencies:
       '@repo/typescript-config':
         specifier: workspace:*

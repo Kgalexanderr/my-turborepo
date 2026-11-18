@@ -1,20 +1,19 @@
 
 import { NextResponse } from "next/server";
-import { withAuth } from "@workos-inc/authkit-nextjs";
-import { getNotesDb } from "./db";
+import { getAuthenticatedDb } from "@repo/db/server";
 
 // READ
 export async function GET() {
-  const { user, accessToken } = await withAuth();
+  const auth = await getAuthenticatedDb();
 
-  if (!user || !accessToken) {
+  if (!auth) {
     return NextResponse.json(
       { error: "Unauthorized" },
       { status: 401 }
     );
   }
 
-  const db = getNotesDb(accessToken);
+  const { db, user } = auth;
 
   const { data, error } = await db
     .from("demo_notes")
@@ -34,16 +33,19 @@ export async function GET() {
 
 // CREATE
 export async function POST(request: Request) {
-  const { user, accessToken } = await withAuth();
+  const auth = await getAuthenticatedDb();
 
-  if (!user || !accessToken) {
+  if (!auth) {
     return NextResponse.json(
       { error: "Unauthorized" },
       { status: 401 }
     );
   }
 
+  const { db, user } = auth;
+
   const body = await request.json().catch(() => null);
+
   const content =
     typeof body?.content === "string"
       ? body.content.trim()
@@ -55,8 +57,6 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-
-  const db = getNotesDb(accessToken);
 
   const { data, error } = await db
     .from("demo_notes")
