@@ -30,6 +30,13 @@
     },
     "transit": {
       "dependsOn": ["^transit"]
+    },
+
+    "db:generate": {
+      "cache": false
+    },
+    "db:migrate": {
+      "cache": false
     }
   }
 }
