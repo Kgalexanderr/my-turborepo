@@ -1,6 +1,18 @@
+
+"use client"
 import { Button } from "@repo/ui/components/button"
 
 export default function WebsitePage(){
+
+  async function test1(){
+    const res = await fetch("/api/websites/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    console.log(res)
+  }
+
   return(
     <main className="p-12">
       <h1>Organization Website</h1>
@@ -10,6 +22,10 @@ export default function WebsitePage(){
       <p>Connected Domain: </p>
       <Button>
         <a href={process.env.NEXT_PUBLIC_EDITOR_URL + "/32834235"}>Edit</a>
+      </Button>
+
+      <Button onClick={() => test1()}>
+        Test 1
       </Button>
     </main>
 

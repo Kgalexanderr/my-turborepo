@@ -1,6 +1,8 @@
 
 import { NextResponse } from "next/server";
-import { getAuthenticatedDb } from "@repo/db/server";
+import { createUserDb } from "@repo/db/server";
+import { withAuth } from "@workos-inc/authkit-nextjs";
+
 
 type RouteParams = {
   params: Promise<{ id: string }>;
@@ -10,16 +12,19 @@ export async function DELETE(
   _request: Request,
   { params }: RouteParams
 ) {
-  const auth = await getAuthenticatedDb();
 
-  if (!auth) {
-    return NextResponse.json(
+  const {user, accessToken} = await withAuth()
+
+  if (!user || !accessToken) {
+    return Response.json(
       { error: "Unauthorized" },
       { status: 401 }
     );
   }
 
-  const { db, user } = auth;
+  // Access database
+  const db = createUserDb(accessToken);
+  
   const { id } = await params;
 
   if (!id) {

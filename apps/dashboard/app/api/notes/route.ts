@@ -1,19 +1,23 @@
 
 import { NextResponse } from "next/server";
-import { getAuthenticatedDb } from "@repo/db/server";
+import { createUserDb } from "@repo/db/server";
+import { withAuth } from "@workos-inc/authkit-nextjs";
+
 
 // READ
 export async function GET() {
-  const auth = await getAuthenticatedDb();
 
-  if (!auth) {
-    return NextResponse.json(
+  const {user, accessToken} = await withAuth()
+
+  if (!user || !accessToken) {
+    return Response.json(
       { error: "Unauthorized" },
       { status: 401 }
     );
   }
 
-  const { db, user } = auth;
+  // Access database
+  const db = createUserDb(accessToken);
 
   const { data, error } = await db
     .from("demo_notes")
@@ -33,16 +37,26 @@ export async function GET() {
 
 // CREATE
 export async function POST(request: Request) {
-  const auth = await getAuthenticatedDb();
+  const {user, roles, accessToken} = await withAuth()
 
-  if (!auth) {
-    return NextResponse.json(
+  if (!user || !accessToken) {
+    return Response.json(
       { error: "Unauthorized" },
       { status: 401 }
     );
   }
 
-  const { db, user } = auth;
+  console.log(roles)
+
+  if(!roles?.includes("admin")){
+    return Response.json(
+      {error: "Unauthorized", message: "You don't have permission, contact your admin."},
+      { status: 401 }
+    )
+  }
+
+  // Access database
+  const db = createUserDb(accessToken);
 
   const body = await request.json().catch(() => null);
 

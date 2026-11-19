@@ -1,22 +1,19 @@
-
 import "server-only";
 
-import { withAuth } from "@workos-inc/authkit-nextjs";
 import { createDbClient } from "./index";
 
-export async function getAuthenticatedDb() {
-  const { user, accessToken } = await withAuth();
+export function createUserDb(accessToken: string) {
 
-  if (!user || !accessToken) {
-    return null;
+  const valid_url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const valid_publishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+
+  if(!valid_url || !valid_publishableKey){
+    throw new Error("Missing Supabase environment variables.");
   }
 
-  const db = createDbClient({
-    url: process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    publishableKey:
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+  return createDbClient({
+    url: valid_url,
+    publishableKey: valid_publishableKey,
     accessToken,
   });
-
-  return { db, user };
 }

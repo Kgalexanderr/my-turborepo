@@ -1,7 +1,5 @@
 
 import { withAuth } from "@workos-inc/authkit-nextjs";
-import { handleSignOutAction } from "./actions/signOut";
-import SignInButton from "@repo/ui/components/sign-in-button";
 import Notes from "@repo/ui/components/notes";
 
 export default async function Page() {
