@@ -23,9 +23,7 @@ export async function GET(request: NextRequest) {
   });
 }
 
-export async function POST(request: NextRequest) {
-
-  const corsHeaders = getCorsHeaders(request.headers.get("origin"));
+export async function POST() {
   const {user, permissions, accessToken, organizationId} = await withAuth()
 
   // check auth

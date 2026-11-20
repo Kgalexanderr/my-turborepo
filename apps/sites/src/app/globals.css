@@ -1,5 +1,6 @@
 @import "@repo/ui/styles.css";
 
+/* Scan this app's src directory, including app-local components. */
 @source "../";
 
 /* :root {

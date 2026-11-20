@@ -6,7 +6,8 @@
         "build",
         "web#test",
         "dashboard#test",
-        "blank#test",
+        "editor#test",
+        "sites#test",
         "@repo/ui#test"
       ],
       "inputs": [
