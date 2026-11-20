@@ -2,7 +2,10 @@
   "name": "ongrapes",
   "private": true,
   "scripts": {
+
     "build": "turbo run build",
+    "db:types": "supabase gen types typescript --remote=szcewiekslklbybysuxl --schema public > packages/db/src/database.types.ts",
+
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
@@ -15,12 +18,13 @@
     "view-report": "turbo run test && turbo run view-report"
   },
   "devDependencies": {
+    "@repo/vitest-config": "workspace:*",
+    "@vitest/coverage-istanbul": "5.1.0",
     "pnpm": "12.16.1",
     "prettier": "3.9.10",
     "prettier-plugin-tailwindcss": "0.8.1",
+    "supabase": "^3.2.0",
     "turbo": "^2.11.11",
-    "@repo/vitest-config": "workspace:*",
-    "@vitest/coverage-istanbul": "5.1.0",
     "typescript": "7.0.2",
     "vitest": "5.1.0"
   },

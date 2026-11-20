@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
 
   const { data, error } = await db
     .from('websites')
-    .select('content')
+    .select()
     .eq("organization_id", organizationId);
 
   if (error) {

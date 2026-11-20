@@ -5,7 +5,8 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./server": "./src/server.ts"
+    "./server": "./src/server.ts",
+    "./database.types": "./src/database.types.ts"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",

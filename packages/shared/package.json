@@ -22,6 +22,9 @@
   "peerDependencies": {
     "react": "^19.0.0"
   },
+  "dependencies": {
+    "@repo/db": "workspace:*"
+  },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
