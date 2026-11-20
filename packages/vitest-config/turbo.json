@@ -6,13 +6,16 @@
         "build",
         "web#test",
         "dashboard#test",
-        "blank#test",
-        "@repo/ui#test"
+        "editor#test",
+        "sites#test",
+        "@repo/ui#test",
+        "@repo/shared#test"
       ],
       "inputs": [
         "$TURBO_DEFAULT$",
         "$TURBO_ROOT$/apps/*/coverage/blob/**",
-        "$TURBO_ROOT$/packages/ui/coverage/blob/**"
+        "$TURBO_ROOT$/packages/ui/coverage/blob/**",
+        "$TURBO_ROOT$/packages/shared/coverage/blob/**"
       ],
       "outputs": ["coverage/merged-blob/**"]
     },

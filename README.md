@@ -31,11 +31,11 @@ The root commands build `@repo/vitest-config` automatically. Coverage uses Istan
 - Its `baseConfig` uses the Node environment for non-DOM packages.
 - Its `uiConfig` adds jsdom, jest-dom matchers, and explicit React Testing Library cleanup.
 - `createUiConfig` creates a fresh React plugin and Vite's native TypeScript alias resolution for each package, with an explicit root and unique project name.
-- `apps/{web,dashboard,blank}/vitest.config.ts` and `packages/ui/vitest.config.ts` use that UI configuration.
+- `apps/{web,dashboard,editor,sites}/vitest.config.ts` and `packages/ui/vitest.config.ts` use that UI configuration.
 - The root `vitest.config.ts` discovers package configurations through Vitest Projects. Package configurations import the shared package, never the root Projects configuration.
 - Turbo's `transit` task propagates shared-source changes into dependent test hashes while allowing the test suites to run in parallel.
 
-Tests import `describe`, `it`, `expect`, and mocks explicitly from `vitest`; globals are disabled. Place tests next to their source (`*.test.ts` / `*.test.tsx`) or in a package's `tests` directory. The initial tests cover Button interaction, disabled behavior, `asChild`, Tailwind class merging, and page rendering in each app. The utility tests demonstrate the `@vitest-environment node` override.
+Tests import `describe`, `it`, `expect`, and mocks explicitly from `vitest`; globals are disabled. Place tests next to their source (`*.test.ts` / `*.test.tsx`) or in a package's `tests` directory. The initial tests cover Button interaction, disabled behavior, `asChild`, Tailwind class merging, and shared utility imports in each app. The utility tests demonstrate the `@vitest-environment node` override.
 
 Changes to shared configuration source must be compiled before they affect an already-running watcher. Restart the root watcher command, or run `pnpm --filter @repo/vitest-config dev` alongside it while editing the config itself.
 
@@ -50,3 +50,35 @@ Changes to shared configuration source must be compiled before they affect an al
 ## Test boundaries
 
 Vitest tests component behavior and logic. Use a real browser test for computed Tailwind styles, layout, routing, and async Server Components. Vitest/jsdom does not verify that `cursor-pointer` becomes an actual browser cursor. Keep `pnpm check-types`, `pnpm lint`, and `pnpm build` alongside tests; Vitest does not replace TypeScript checking or a Next.js build.
+
+## Application layout
+
+The four workspace apps (`dashboard`, `editor`, `web`, and `sites`) keep application
+code in `src/app`. App-local `components`, `lib`, and any `hooks` also belong under
+`src`; Proxy files live at `src/proxy.ts`. Imports using `@/*` resolve from `src`.
+Dashboard also supports `@components/*` and `@lib/*` from those source directories.
+
+Each app keeps `public`, configuration files, tests, and `.env.*` files at its root.
+The CSS entry is `src/app/globals.css`: its `@source "../"` registers that app's `src`
+directory with Tailwind v4, while `@repo/ui/styles.css` registers shared UI source.
+The web app's shadcn aliases resolve local components into `src` and shared UI into
+`packages/ui`.
+
+Reusable utilities, constants, types, and hooks are exported by `@repo/shared`.
+See [the shared package documentation](packages/shared/README.md) for imports and
+small Vitest examples. All workspace apps declare this dependency and transpile
+its TypeScript source alongside `@repo/ui`.
+
+The app math tests now import their example helper from `@repo/shared`; its source
+coverage is reported by the shared package. Add app-behavior tests as app features
+grow. Empty per-app coverage in the example suite does not indicate a failing test.
+
+## Local blank template
+
+`empty/` is local-only and excluded from the pnpm workspace. The migrated blank
+template is preserved in the migration PR's shared-package snapshot commit
+(`Configure shared utilities and React hooks with workspace tests`). Back up your
+local template before pulling the commit that removes it from Git tracking. To
+restore the migrated copy, extract `empty/blank` from that snapshot's ZIP archive.
+Copy it into `apps/<name>`, rename the package and Vitest project, choose a port,
+and run `pnpm install` to activate a new workspace app.

@@ -1,4 +1,0 @@
-@import "@repo/ui/styles.css";
-
-/* Include routes and app-local components, relative to this stylesheet. */
-@source "../";
