@@ -1,5 +1,5 @@
-
 "use client"
+
 import { Button } from "@repo/ui/components/button"
 
 export default function WebsitePage(){
@@ -22,7 +22,7 @@ export default function WebsitePage(){
 
   return(
     <main className="p-12">
-      
+
       <h1>Organization Website</h1>
       <p>Title: </p>
       <p>Id: </p>

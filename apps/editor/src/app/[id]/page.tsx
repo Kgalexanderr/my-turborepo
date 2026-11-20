@@ -1,5 +1,6 @@
-import { withAuth } from '@workos-inc/authkit-nextjs';
 
+import { withAuth } from "@workos-inc/authkit-nextjs";
+import { EditSiteClient } from "../../components/test";
 
 // Check if auth (withAuth)
 
@@ -29,6 +30,8 @@ export default async function EditSite({
   return(
     <div>
       Editing site {id}
+
+      <EditSiteClient id={id} />
     </div>
   )
 }
