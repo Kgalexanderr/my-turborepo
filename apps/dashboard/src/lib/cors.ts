@@ -10,16 +10,20 @@ export function getCorsHeaders(origin: string | null) {
     "Vary": "Origin",
   });
 
+  // Only allow trusted origins
   if (!origin || !allowedOrigins.has(origin)) {
     return headers;
   }
 
   headers.set("Access-Control-Allow-Origin", origin);
+
   headers.set("Access-Control-Allow-Credentials", "true");
+
   headers.set(
     "Access-Control-Allow-Methods",
     "GET, POST, PATCH, PUT, DELETE, OPTIONS"
   );
+
   headers.set(
     "Access-Control-Allow-Headers",
     "Content-Type, Authorization"

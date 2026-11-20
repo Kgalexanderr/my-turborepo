@@ -6,8 +6,15 @@ export default function WebsitePage(){
 
   async function test1(){
     const res = await fetch("/api/websites/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: "GET",
+      // credentials: "include",
+      headers: { 
+        "Content-Type": "application/json" 
+      },
+      // body: JSON.stringify({
+      //   name: "My Portfolio",
+      //   url: "https://example.com"
+      // })
     });
 
     console.log(res)
