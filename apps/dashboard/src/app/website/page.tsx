@@ -7,7 +7,7 @@ export default function WebsitePage(){
   async function test1(){
     const res = await fetch("/api/websites/", {
       method: "GET",
-      // credentials: "include",
+      credentials: "include",
       headers: { 
         "Content-Type": "application/json" 
       },
@@ -22,11 +22,13 @@ export default function WebsitePage(){
 
   return(
     <main className="p-12">
+      
       <h1>Organization Website</h1>
       <p>Title: </p>
       <p>Id: </p>
       <p>Last Updated: </p>
       <p>Connected Domain: </p>
+
       <Button>
         <a href={process.env.NEXT_PUBLIC_EDITOR_URL + "/32834235"}>Edit</a>
       </Button>
@@ -34,6 +36,7 @@ export default function WebsitePage(){
       <Button onClick={() => test1()}>
         Test 1
       </Button>
+
     </main>
 
   )

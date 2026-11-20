@@ -20,3 +20,17 @@ const response = await fetch("/api/websites", {
 });
 
 console.log(response.status, await response.json());
+
+
+
+
+
+const response = await fetch("https://app.ongrapes.com/api/websites", {
+  method: "GET",
+  credentials: "include",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+console.log(response.status, await response.json());
