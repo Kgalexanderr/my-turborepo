@@ -72,3 +72,13 @@ its TypeScript source alongside `@repo/ui`.
 The app math tests now import their example helper from `@repo/shared`; its source
 coverage is reported by the shared package. Add app-behavior tests as app features
 grow. Empty per-app coverage in the example suite does not indicate a failing test.
+
+## Local blank template
+
+`empty/` is local-only and excluded from the pnpm workspace. The migrated blank
+template is preserved in the migration PR's shared-package snapshot commit
+(`Configure shared utilities and React hooks with workspace tests`). Back up your
+local template before pulling the commit that removes it from Git tracking. To
+restore the migrated copy, extract `empty/blank` from that snapshot's ZIP archive.
+Copy it into `apps/<name>`, rename the package and Vitest project, choose a port,
+and run `pnpm install` to activate a new workspace app.
