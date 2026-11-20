@@ -46,21 +46,15 @@ export async function GET(request: NextRequest) {
   }
   
   const {user, accessToken, organizationId} = await withAuth()
-  const hasCookies = request.headers.has("cookie");
 
   // check auth
   if (!user || !accessToken) {
     return NextResponse.json(
-      {
+      { 
         error: "Unauthorized",
-        message: !hasCookies
-          ? 'No cookies received. Make sure your fetch request uses credentials: "include".'
-          : "Invalid or expired authentication session.",
+        message: "Invalid or expired authentication session." // Was credentials: "include" included?
       },
-      {
-        status: 401,
-        headers: corsHeaders,
-      }
+      { status: 401, headers: corsHeaders }
     );
   }
 
@@ -125,21 +119,15 @@ export async function POST(request: Request) {
   }
 
   const {user, permissions, accessToken, organizationId} = await withAuth()
-  const hasCookies = request.headers.has("cookie");
-
+  
   // check auth
   if (!user || !accessToken) {
     return NextResponse.json(
-      {
+      { 
         error: "Unauthorized",
-        message: !hasCookies
-          ? 'No cookies received. Make sure your fetch request uses credentials: "include".'
-          : "Invalid or expired authentication session.",
+        message: "Invalid or expired authentication session." // Was credentials: "include" included?
       },
-      {
-        status: 401,
-        headers: corsHeaders,
-      }
+      { status: 401, headers: corsHeaders }
     );
   }
 
